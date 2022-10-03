@@ -179,7 +179,83 @@ PB20000277 孙昊哲
 ## 实验结果验证
 
 1. 助教提供的测试已经全部通过
-2. 自己的测试文件`tests/parser/test/test.cminus`，也可以通过
+2. 自己的测试文件`tests/parser/my_test/test.cminus`测试用例是
+   
+```C
+int main(void)
+{
+    int n;
+    int b;
+    int c;
+    n = b + c;
+}
+```
+
+测试结果是
+
+```
+>--+ program
+|  >--+ declaration-list
+|  |  >--+ declaration
+|  |  |  >--+ fun-declaration
+|  |  |  |  >--+ type-specifier
+|  |  |  |  |  >--* int
+|  |  |  |  >--* main
+|  |  |  |  >--* (
+|  |  |  |  >--+ params
+|  |  |  |  |  >--* void
+|  |  |  |  >--* )
+|  |  |  |  >--+ compound-stmt
+|  |  |  |  |  >--* {
+|  |  |  |  |  >--+ local-declarations
+|  |  |  |  |  |  >--+ local-declarations
+|  |  |  |  |  |  |  >--+ local-declarations
+|  |  |  |  |  |  |  |  >--+ local-declarations
+|  |  |  |  |  |  |  |  |  >--* epsilon
+|  |  |  |  |  |  |  |  >--+ var-declaration
+|  |  |  |  |  |  |  |  |  >--+ type-specifier
+|  |  |  |  |  |  |  |  |  |  >--* int
+|  |  |  |  |  |  |  |  |  >--* n
+|  |  |  |  |  |  |  |  |  >--* ;
+|  |  |  |  |  |  |  >--+ var-declaration
+|  |  |  |  |  |  |  |  >--+ type-specifier
+|  |  |  |  |  |  |  |  |  >--* int
+|  |  |  |  |  |  |  |  >--* b
+|  |  |  |  |  |  |  |  >--* ;
+|  |  |  |  |  |  >--+ var-declaration
+|  |  |  |  |  |  |  >--+ type-specifier
+|  |  |  |  |  |  |  |  >--* int
+|  |  |  |  |  |  |  >--* c
+|  |  |  |  |  |  |  >--* ;
+|  |  |  |  |  >--+ statement-list
+|  |  |  |  |  |  >--+ statement-list
+|  |  |  |  |  |  |  >--* epsilon
+|  |  |  |  |  |  >--+ statement
+|  |  |  |  |  |  |  >--+ expression-stmt
+|  |  |  |  |  |  |  |  >--+ expression
+|  |  |  |  |  |  |  |  |  >--+ var
+|  |  |  |  |  |  |  |  |  |  >--* n
+|  |  |  |  |  |  |  |  |  >--* =
+|  |  |  |  |  |  |  |  |  >--+ expression
+|  |  |  |  |  |  |  |  |  |  >--+ simple-expression
+|  |  |  |  |  |  |  |  |  |  |  >--+ additive-expression
+|  |  |  |  |  |  |  |  |  |  |  |  >--+ additive-expression
+|  |  |  |  |  |  |  |  |  |  |  |  |  >--+ term
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  >--+ factor
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  >--+ var
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  >--* b
+|  |  |  |  |  |  |  |  |  |  |  |  >--+ addop
+|  |  |  |  |  |  |  |  |  |  |  |  |  >--* +
+|  |  |  |  |  |  |  |  |  |  |  |  >--+ term
+|  |  |  |  |  |  |  |  |  |  |  |  |  >--+ factor
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  >--+ var
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  >--* c
+|  |  |  |  |  |  |  |  >--* ;
+|  |  |  |  |  >--* }
+
+```
+
+经过核对，测试结果与预期结果一致。
 
 ## 实验反馈
 

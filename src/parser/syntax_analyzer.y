@@ -94,8 +94,8 @@ syntax_tree_node *node(const char *node_name, int children_num, ...);
 %type <node> mulop 
 %type <node> factor 
 %type <node> call 
-%type <node> args 
 %type <node> arg-list 
+%type <node> args 
 %type <node> integer 
 %type <node> float
 
@@ -103,197 +103,330 @@ syntax_tree_node *node(const char *node_name, int children_num, ...);
 %%
 
 program : declaration-list
-{$$ = node("program", 1, $1); gt->root = $$;}
+{
+    $$ = node("program", 1, $1); gt->root = $$;
+}
 ;
 
 declaration-list : declaration-list declaration
-{$$ = node("declaration-list", 2, $1, $2);}
+{
+    $$ = node("declaration-list", 2, $1, $2);
+}
 | declaration
-{$$ = node("declaration-list", 1, $1);}
+{
+    $$ = node("declaration-list", 1, $1);
+}
 ;
 
 declaration : var-declaration
-{$$ = node("declaration", 1, $1);}
+{
+    $$ = node("declaration", 1, $1);
+}
 | fun-declaration
-{$$ = node("declaration", 1, $1);}
+{
+    $$ = node("declaration", 1, $1);
+}
 ;
 
 var-declaration : type-specifier IDENTIFIER SEMICOLON
-{$$ = node("var-declaration", 3, $1, $2, $3);}
+{
+    $$ = node("var-declaration", 3, $1, $2, $3);
+}
 | type-specifier IDENTIFIER LBRACKET INTEGER RBRACKET SEMICOLON
-{$$ = node("var-declaration", 6, $1, $2, $3, $4, $5, $6);}
+{
+    $$ = node("var-declaration", 6, $1, $2, $3, $4, $5, $6);
+}
 ;
 
 type-specifier : INT
-{$$ = node("type-specifier", 1, $1);}
+{
+    $$ = node("type-specifier", 1, $1);
+}
 | FLOAT
-{$$ = node("type-specifier", 1, $1);}
+{
+    $$ = node("type-specifier", 1, $1);
+}
 | VOID
-{$$ = node("type-specifier", 1, $1);}
+{
+    $$ = node("type-specifier", 1, $1);
+}
 ;
 
 fun-declaration : type-specifier IDENTIFIER LPARENTHESE params RPARENTHESE compound-stmt
-{$$ = node("fun-declaration", 6, $1, $2, $3, $4, $5, $6);}
+{
+    $$ = node("fun-declaration", 6, $1, $2, $3, $4, $5, $6);
+}
 ;
 
 params : param-list 
-{$$ = node("params", 1, $1);}
+{
+    $$ = node("params", 1, $1);
+}
 | VOID
-{$$ = node("params", 1, $1);}
+{
+    $$ = node("params", 1, $1);
+}
 ;
 
 param-list : param-list COMMA param 
-{$$ = node("param-list", 3, $1, $2, $3);}
+{
+    $$ = node("param-list", 3, $1, $2, $3);
+}
 | param
-{$$ = node("param-list", 1, $1);}
+{
+    $$ = node("param-list", 1, $1);
+}
 ;
 
 param : type-specifier IDENTIFIER
-{$$ = node("param", 2, $1, $2);}
-| type-specifier IDENTIFIER LBRACKET RBRACKET
-{$$ = node("param", 4, $1, $2, $3, $4);}
+{
+    $$ = node("param", 2, $1, $2);
+    
+}
+| type-specifier IDENTIFIER LBRACKET RBRACKET 
+{
+    $$ = node("param", 4, $1, $2, $3, $4);
+}
 ;
 
-compound-stmt : LBRACE local-declarations statement-list RBRACE
-{$$ = node("compound-stmt", 4, $1, $2, $3, $4);}
+compound-stmt : LBRACE local-declarations statement-list RBRACE 
+{ 
+    $$ = node("compound-stmt", 4, $1, $2, $3, $4);
+} 
 ;
 
 local-declarations : local-declarations var-declaration
-{$$ = node("local-declarations", 2, $1, $2);}
+{
+    $$ = node("local-declarations", 2, $1, $2);
+}
 | 
-{$$ = node("local-declarations", 0);}
-;
+{
+    $$ = node("local-declarations", 0);
+}
+;  
 
 statement-list : statement-list statement 
-{$$ = node("statement-list", 2, $1, $2);}
+{   
+    $$ = node("statement-list", 2, $1, $2);
+}
 | 
-{$$ = node("statement-list", 0);}
+{
+    $$ = node("statement-list", 0);
+}
 ;
 
 statement : expression-stmt
-{$$ = node("statement", 1, $1);}
+{
+    $$ = node("statement", 1, $1);
+}
 | compound-stmt
-{$$ = node("statement", 1, $1);}
+{
+    $$ = node("statement", 1, $1);
+}
 | selection-stmt
-{$$ = node("statement", 1, $1);}
+{
+    $$ = node("statement", 1, $1);   
+}
 | iteration-stmt
-{$$ = node("statement", 1, $1);}
+{
+    $$ = node("statement", 1, $1);
+}
 | return-stmt
-{$$ = node("statement", 1, $1);}
+{
+    $$ = node("statement", 1, $1);
+}
 ;
 
 expression-stmt : expression SEMICOLON
-{$$ = node("expression-stmt", 2, $1, $2);}
+{
+    $$ = node("expression-stmt", 2, $1, $2);
+}
 | SEMICOLON
-{$$ = node("expression-stmt", 1, $1);}
+{
+    $$ = node("expression-stmt", 1, $1);
+}
 ;
 
 selection-stmt : IF LPARENTHESE expression RPARENTHESE statement
-{$$ = node("selection-stmt", 5, $1, $2, $3, $4, $5);}
+{
+    $$ = node("selection-stmt", 5, $1,  $2, $3, $4, $5);
+}
 | IF LPARENTHESE expression RPARENTHESE statement ELSE statement
-{$$ = node("selection-stmt", 7, $1, $2, $3, $4, $5, $6, $7);}
+{
+    $$ = node("selection-stmt", 7, $1, $2, $3, $4, $5, $6, $7);
+}
 ;
 
 iteration-stmt : WHILE LPARENTHESE expression RPARENTHESE statement
-{$$ = node("iteration-stmt", 5, $1, $2, $3, $4, $5);}
+{
+    $$ = node("iteration-stmt", 5, $1, $2, $3, $4, $5);
+}
 ;
 
 return-stmt : RETURN SEMICOLON
-{$$ = node("return-stmt", 2, $1, $2);}
+{
+    $$ = node("return-stmt",  2, $1, $2);
+}
 | RETURN expression SEMICOLON
-{$$ = node("return-stmt", 3, $1, $2, $3);}
+{
+    $$ = node("return-stmt", 3, $1,  $2, $3);
+}
 ;
 
 expression : var ASSIN expression
-{$$ = node("expression", 3, $1, $2, $3);}
+{
+    $$ = node("expression", 3, $1, $2, $3);
+}
 | simple-expression
-{$$ = node("expression", 1, $1);}
+{
+    $$ = node("expression", 1, $1);
+}
 ;
 
 var : IDENTIFIER
-{$$ = node("var", 1, $1);}
+{
+    $$ = node("var", 1, $1);
+}
 | IDENTIFIER LBRACKET expression RBRACKET
-{$$ = node("var", 4, $1, $2, $3, $4);}
+{
+    $$ = node("var", 4, $1, $2, $3, $4);
+}
 ;
 
 simple-expression : additive-expression relop additive-expression 
-{$$ = node("simple-expression", 3, $1, $2, $3);}
+{
+    $$ = node("simple-expression", 3, $1, $2, $3);  
+}
 | additive-expression
-{$$ = node("simple-expression", 1, $1);}
+{
+    $$ = node("simple-expression", 1, $1);
+}
 ;
 
 relop : LTE
-{$$ = node("relop", 1, $1);}
+{
+    $$ = node("relop", 1, $1);
+}
 | LT
-{$$ = node("relop", 1, $1);}
+{
+    $$ = node("relop", 1, $1);
+}
 | GT
-{$$ = node("relop", 1, $1);}
+{
+    $$ = node("relop", 1, $1);
+}
 | GTE
-{$$ = node("relop", 1, $1);}
+{
+    $$ = node("relop", 1, $1);
+}
 | EQ
-{$$ = node("relop", 1, $1);}
+{
+    $$ = node("relop", 1, $1);  
+}
 | NEQ
-{$$ = node("relop", 1, $1);}
+{
+    $$ = node("relop", 1, $1);
+}
 ;
 
 additive-expression :additive-expression addop term 
-{$$ = node("additive-expression", 3, $1, $2, $3);}
+{
+    $$ = node("additive-expression", 3, $1, $2, $3);
+}
 | term
-{$$ = node("additive-expression", 1, $1);}
+{
+    $$ = node("additive-expression", 1, $1);
+}
 ;
 
 addop : ADD
-{$$ = node("addop", 1, $1);}
+{
+    $$ = node("addop", 1, $1);
+}
 | SUB
-{$$ = node("addop", 1, $1);}
+{
+    $$ = node("addop", 1, $1);
+}
 ;
 
 term : term mulop factor
-{$$ = node("term", 3, $1, $2, $3);}
-| factor
-{$$ = node("term", 1, $1);}
+{
+    $$ = node("term", 3, $1, $2, $3);
+}
+| factor  
+{
+    $$ = node("term", 1, $1);
+}
 ;
 
 mulop : MUL
-{$$ = node("mulop", 1, $1);}
+{
+    $$ = node("mulop", 1, $1);
+}
 | DIV
-{$$ = node("mulop", 1, $1);}
+{
+    $$ = node("mulop", 1, $1);
+}
 ;
 
 factor : LPARENTHESE expression RPARENTHESE
-{$$ = node("factor", 3, $1, $2, $3);}
+{
+    $$ = node("factor", 3, $1, $2, $3);
+}
 | var
-{$$ = node("factor", 1, $1);}
+{
+    $$ = node("factor", 1, $1);
+}
 | call 
-{$$ = node("factor", 1, $1);}
+{
+    $$ = node("factor", 1, $1);  
+}
 | integer
-{$$ = node("factor", 1, $1);}
+{
+    $$ = node("factor", 1, $1);
+}
 | float
-{$$ = node("factor", 1, $1);}
+{
+    $$ = node("factor", 1, $1);
+}
 ;
 
 integer : INTEGER
-{$$ = node("integer", 1, $1);}
+{   
+    $$ = node("integer", 1, $1);
+}
 ;
 
-float : FLOATPOINT
-{$$ = node("float", 1, $1);}
+float : FLOATPOINT  
+{
+    $$ = node("float", 1, $1);  
+}
 ;
 
-call : IDENTIFIER LPARENTHESE args RPARENTHESE
-{$$ = node("call", 4, $1, $2, $3, $4);}
+call : IDENTIFIER LPARENTHESE args RPARENTHESE  
+{
+    $$ = node("call", 4, $1, $2, $3, $4);
+}
 ;
 
 args : arg-list
-{$$ = node("args", 1, $1);}
-| 
-{$$ = node("args", 0);}
+{
+    $$ = node("args", 1, $1);
+}
+|    
+{
+    $$ = node("args", 0);
+}
 ;
 
 arg-list : arg-list COMMA expression
-{$$ = node("arg-list", 3, $1, $2, $3);}
+{
+    $$ = node("arg-list", 3, $1, $2, $3);
+}
 | expression
-{$$ = node("arg-list", 1, $1);}
+{
+    $$ = node("arg-list", 1, $1);
+}
 ;
 
 %%
@@ -301,7 +434,7 @@ arg-list : arg-list COMMA expression
 /// The error reporting function.
 void yyerror(const char * s)
 {
-    // TO STUDENTS: This is just an example.
+    // TO STUDENTS: This is just an example.     
     // You can customize it as you like.
     fprintf(stderr, "error at line %d column %d: %s\n", lines, pos_start, s);
 }
