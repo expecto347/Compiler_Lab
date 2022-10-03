@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="lab1-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A">lab1 实验报告</h1>
+<p>PB20000277 孙昊哲</p>
+<h2 id="%E5%AE%9E%E9%AA%8C%E8%A6%81%E6%B1%82%E6%AD%A4%E9%83%A8%E5%88%86%E6%9D%A5%E8%87%AA%E5%AE%9E%E9%AA%8C%E6%96%87%E6%A1%A3">实验要求（此部分来自实验文档）</h2>
+<h3 id="31-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">3.1 目录结构</h3>
+<p>与本次实验有关的文件如下。</p>
+<pre class="hljs"><code><div>.
+├── CMakeLists.txt
+├── Documentations
+│   └── 1-parser                       本次实验的所有文档
+├── Reports
+│   └── 1-parser
+│       └── README.md                  在这里写实验报告 &lt;-- 修改
+├── include
+│   └── syntax_tree.h
+├── shell.nix
+├── src
+│   ├── CMakeLists.txt
+│   ├── common
+│   │   ├── CMakeLists.txt
+│   │   └── syntax_tree.c              语法树的构造
+│   └── parser
+│       ├── CMakeLists.txt
+│       ├── lexical_analyzer.l         词法分析器       &lt;-- 修改
+│       └── syntax_analyzer.y          语法分析器       &lt;-- 修改
+└── tests
+    ├── CMakeLists.txt
+    └── parser
+    │   ├── CMakeLists.txt
+    │   ├── easy                       简单的测试
+    │   ├── normal                     中等复杂度的测试
+    │   ├── hard                       复杂的测试
+    │   ├── lexer.c                    用于词法分析的调试程序
+    │   ├── parser.c                   语法分析
+    │   ├── syntree_*_std              标准程序输出结果
+    │   └── test_syntax.sh             用于进行批量测试的脚本
+</div></code></pre>
+<h3 id="32-%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C%E5%92%8C%E9%AA%8C%E8%AF%81">3.2 编译、运行和验证</h3>
+<p>项目构建使用 <code>cmake</code> 进行。</p>
+<ul>
+<li>
+<p>编译</p>
+<pre class="hljs"><code><div>$ <span class="hljs-built_in">cd</span> 2022fall-Compiler_CMinus
+$ mkdir build
+$ <span class="hljs-built_in">cd</span> build
+$ cmake ..
+$ make
+</div></code></pre>
+<p>如果构建成功，会在该目录下看到 <code>lexer</code> 和 <code>parser</code> 两个可执行文件。</p>
+<ul>
+<li><code>lexer</code>用于词法分析，产生token stream；对于词法分析结果，我们不做考察</li>
+<li><code>parser</code>用于语法分析，产生语法树。</li>
+</ul>
+</li>
+<li>
+<p>运行</p>
+<pre class="hljs"><code><div>$ <span class="hljs-built_in">cd</span> 2022fall-Compiler_CMinus
+<span class="hljs-comment"># 词法测试</span>
+$ ./build/lexer ./tests/parser/normal/<span class="hljs-built_in">local</span>-decl.cminus
+Token	      Text	Line	Column (Start,End)
+280  	       int	0	(0,3)
+284  	      main	0	(4,8)
+272  	         (	0	(8,9)
+282  	      void	0	(9,13)
+273  	         )	0	(13,14)
+...
+<span class="hljs-comment"># 语法测试</span>
+$ ./build/parser ./tests/parser/normal/<span class="hljs-built_in">local</span>-decl.cminus
+&gt;--+ program
+|  &gt;--+ declaration-list
+|  |  &gt;--+ declaration
+...
+</div></code></pre>
+</li>
+<li>
+<p>验证
+可以使用 <code>diff</code> 与标准输出进行比较。</p>
+<pre class="hljs"><code><div>$ <span class="hljs-built_in">cd</span> 2022fall-Compiler_CMinus
+$ <span class="hljs-built_in">export</span> PATH=<span class="hljs-string">"<span class="hljs-variable">$(realpath ./build)</span>:<span class="hljs-variable">$PATH</span>"</span>
+$ <span class="hljs-built_in">cd</span> tests/parser
+$ mkdir output.easy
+$ parser easy/expr.cminus &gt; output.easy/expr.cminus
+$ diff output.easy/expr.cminus syntree_easy_std/expr.syntax_tree
+[输出为空，代表没有区别，该测试通过]
+</div></code></pre>
+<p>我们提供了 <code>test_syntax.sh</code> 脚本进行快速批量测试。该脚本的第一个参数是 <code>easy</code> <code>normal</code> <code>hard</code> 等难度，并且有第二个可选参数，用于进行批量 <code>diff</code> 比较。脚本运行后会产生名如 <code>syntree_easy</code> 的文件夹。</p>
+<pre class="hljs"><code><div>$ ./test_syntax.sh easy
+[info] Analyzing FAIL_id.cminus
+error at line 1 column 6: syntax error
+...
+[info] Analyzing id.cminus
+
+$ ./test_syntax.sh easy yes
+...
+[info] Comparing...
+[info] No difference! Congratulations!
+</div></code></pre>
+</li>
+</ul>
+<h3 id="33-%E6%8F%90%E4%BA%A4%E8%A6%81%E6%B1%82%E5%92%8C%E8%AF%84%E5%88%86%E6%A0%87%E5%87%86">3.3 提交要求和评分标准</h3>
+<ul>
+<li>
+<p>提交要求
+本实验的提交要求分为两部分：实验部分的文件和报告，git提交的规范性。</p>
+<ul>
+<li>
+<p>实验部分</p>
+<ul>
+<li>需要完善 <code>src/parser/lexical_analyzer.l</code> 和 <code>src/parser/syntax_analyzer.y</code>。</li>
+<li>需要在 <code>Reports/1-parser/README.md</code> 中撰写实验报告。
+<ul>
+<li>实验报告内容包括
+<ul>
+<li>实验要求、实验难点、实验设计、实验结果验证、实验反馈</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>git 提交规范</p>
+<ul>
+<li>不破坏目录结构（实验报告所需图片放在目录中）</li>
+<li>不上传临时文件（凡是可以自动生成的都不要上传，如 <code>build</code> 目录、测试时自动生成的输出、<code>.DS_Store</code> 等）</li>
+<li>git log 言之有物</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>提交方式：</p>
+<ul>
+<li>
+<p>代码提交：本次实验需要在希冀课程平台上发布的作业<a href="http://cscourse.ustc.edu.cn/assignment/index.jsp?courseID=17&amp;assignID=54">Lab1-代码提交</a>提交自己仓库的 gitlab 链接（注：由于平台限制，请提交http协议格式的仓库链接。例：学号为 PB011001 的同学，Lab1 的实验仓库地址为<code>http://202.38.79.174/PB011001/2022fall-compiler_cminus.git</code>），我们会收集最后一次提交的评测分数，作为最终代码得分。</p>
+</li>
+<li>
+<p>实验评测</p>
+<ul>
+<li>除已提供的 easy, normal, hard 数据集之外，平台会使用额外的隐藏测试用例进行测试。</li>
+</ul>
+</li>
+<li>
+<p>报告提交：将 <code>Reports/1-parser/README.md</code> 导出成 pdf 文件单独提交到<a href="http://cscourse.ustc.edu.cn/assignment/index.jsp?courseID=17&amp;assignID=54">Lab1-报告提交</a>。</p>
+</li>
+<li>
+<p>提交异常：如果遇到在平台上提交异常的问题，请通过邮件联系助教，助教将收取截止日期之前，学生在 gitlab 仓库最近一次 commit 内容进行评测。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>迟交规定</p>
+<ul>
+<li>
+<p>Soft Deadline：2022-09-30 23:59:59 (UTC+8)</p>
+</li>
+<li>
+<p>Hard Deadline：2022-10-07 23:59:59 (UTC+8)</p>
+</li>
+<li>
+<p>补交请邮件提醒 TA：</p>
+<ul>
+<li>邮箱：<code>zhenghy22@mail.ustc.edu.cn</code> 抄送 <code>chen16614@mail.ustc.edu.cn</code></li>
+<li>邮件主题：lab1迟交-学号</li>
+<li>内容：迟交原因、最后版本commitID、迟交时间</li>
+</ul>
+</li>
+<li>
+<p>迟交分数</p>
+<ul>
+<li>
+<p>x 为相对 Soft Deadline 迟交天数，grade 满分 100</p>
+<pre class="hljs"><code><div>final_grade = grade, x = 0  
+final_grade = grade * (0.9)^x, 0 &lt; x &lt;= 7  
+final_grade = 0, x &gt; 7
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>评分标准：
+实验一最终分数组成如下：</p>
+<ul>
+<li>平台测试得分：(70分)</li>
+<li>实验报告得分：(30分)<br>
+注：禁止执行恶意代码，违者0分处理。</li>
+</ul>
+</li>
+<li>
+<p>关于抄袭和雷同</p>
+<p>经过助教和老师判定属于作业抄袭或雷同情况，所有参与方一律零分，不接受任何解释和反驳。</p>
+</li>
+</ul>
+<h2 id="%E5%AE%9E%E9%AA%8C%E9%9A%BE%E7%82%B9">实验难点</h2>
+<ol>
+<li>编写完善Flex，匹配所需要的tokens</li>
+<li>完成语法分析规则</li>
+<li>仔细阅读助教，老师提供的实验文档，读懂想干什么</li>
+<li>正确处理特殊情况</li>
+</ol>
+<h2 id="%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1">实验设计</h2>
+<ol>
+<li>完成文件<code>src/parser/lexical_analyzer.l</code>，需要注意对于COMMENT的处理，应该正确维护行数和列数；</li>
+<li>完成文件<code>src/parser/syntax_analyzer.y</code>，填写与实验文档相对应的语法规则，写出语法分析树的生成规则；正确维护TOKEN</li>
+</ol>
+<h2 id="%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%E9%AA%8C%E8%AF%81">实验结果验证</h2>
+<ol>
+<li>助教提供的测试已经全部通过</li>
+<li>自己的测试文件<code>tests/parser/my_test/test.cminus</code>测试用例是</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+    <span class="hljs-keyword">int</span> n;
+    <span class="hljs-keyword">int</span> b;
+    <span class="hljs-keyword">int</span> c;
+    n = b + c;
+}
+</div></code></pre>
+<p>测试结果是</p>
+<pre class="hljs"><code><div>&gt;--+ program
+|  &gt;--+ declaration-list
+|  |  &gt;--+ declaration
+|  |  |  &gt;--+ fun-declaration
+|  |  |  |  &gt;--+ type-specifier
+|  |  |  |  |  &gt;--* int
+|  |  |  |  &gt;--* main
+|  |  |  |  &gt;--* (
+|  |  |  |  &gt;--+ params
+|  |  |  |  |  &gt;--* void
+|  |  |  |  &gt;--* )
+|  |  |  |  &gt;--+ compound-stmt
+|  |  |  |  |  &gt;--* {
+|  |  |  |  |  &gt;--+ local-declarations
+|  |  |  |  |  |  &gt;--+ local-declarations
+|  |  |  |  |  |  |  &gt;--+ local-declarations
+|  |  |  |  |  |  |  |  &gt;--+ local-declarations
+|  |  |  |  |  |  |  |  |  &gt;--* epsilon
+|  |  |  |  |  |  |  |  &gt;--+ var-declaration
+|  |  |  |  |  |  |  |  |  &gt;--+ type-specifier
+|  |  |  |  |  |  |  |  |  |  &gt;--* int
+|  |  |  |  |  |  |  |  |  &gt;--* n
+|  |  |  |  |  |  |  |  |  &gt;--* ;
+|  |  |  |  |  |  |  &gt;--+ var-declaration
+|  |  |  |  |  |  |  |  &gt;--+ type-specifier
+|  |  |  |  |  |  |  |  |  &gt;--* int
+|  |  |  |  |  |  |  |  &gt;--* b
+|  |  |  |  |  |  |  |  &gt;--* ;
+|  |  |  |  |  |  &gt;--+ var-declaration
+|  |  |  |  |  |  |  &gt;--+ type-specifier
+|  |  |  |  |  |  |  |  &gt;--* int
+|  |  |  |  |  |  |  &gt;--* c
+|  |  |  |  |  |  |  &gt;--* ;
+|  |  |  |  |  &gt;--+ statement-list
+|  |  |  |  |  |  &gt;--+ statement-list
+|  |  |  |  |  |  |  &gt;--* epsilon
+|  |  |  |  |  |  &gt;--+ statement
+|  |  |  |  |  |  |  &gt;--+ expression-stmt
+|  |  |  |  |  |  |  |  &gt;--+ expression
+|  |  |  |  |  |  |  |  |  &gt;--+ var
+|  |  |  |  |  |  |  |  |  |  &gt;--* n
+|  |  |  |  |  |  |  |  |  &gt;--* =
+|  |  |  |  |  |  |  |  |  &gt;--+ expression
+|  |  |  |  |  |  |  |  |  |  &gt;--+ simple-expression
+|  |  |  |  |  |  |  |  |  |  |  &gt;--+ additive-expression
+|  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ additive-expression
+|  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ term
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ factor
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ var
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--* b
+|  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ addop
+|  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--* +
+|  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ term
+|  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ factor
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--+ var
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  &gt;--* c
+|  |  |  |  |  |  |  |  &gt;--* ;
+|  |  |  |  |  &gt;--* }
+
+</div></code></pre>
+<p>经过核对，测试结果与预期结果一致。</p>
+<h2 id="%E5%AE%9E%E9%AA%8C%E5%8F%8D%E9%A6%88">实验反馈</h2>
+<p>建议不要在国庆长假中途设置DDL，不然真的会忘</p>
+
+</body>
+</html>
