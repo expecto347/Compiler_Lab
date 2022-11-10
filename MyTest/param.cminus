@@ -1,0 +1,15 @@
+int main(void) {
+    int x;
+    float y[100];
+    y[1] = 1;
+    x = 1*2*y[1];
+    y[1] = 100*x;
+    if(x)
+        x = x + 1;
+    else
+        y[1] = y[1] + 1;
+    if(y[1])
+        return y[1];
+    else
+        return y[1];
+}
