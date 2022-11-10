@@ -78,24 +78,24 @@ points of lv1 is: 31
 funcall_chain:	Success
 assign_chain:	Success
 funcall_var:	Success
-funcall_int_array:	Fail
-funcall_float_array:	Fail
-funcall_array_array:	Fail
+funcall_int_array:	Success
+funcall_float_array:	Success
+funcall_array_array:	Success
 return_in_middle1:	Success
 return_in_middle2:	Success
 funcall_type_mismatch1:	Success
 funcall_type_mismatch2:	Success
 return_type_mismatch1:	Success
 return_type_mismatch2:	Success
-points of lv2 is: 17
+points of lv2 is: 23
 ===========lv2 END========
 
 ===========lv3 START========
-complex1:	Fail
-complex2:	Fail
+complex1:	Success
+complex2:	Success
 complex3:	Success
-complex4:	Fail
-points of lv3 is: 2
+complex4:	Success
+points of lv3 is: 11
 ===========lv3 END========
 
-total points: 85
+total points: 100

@@ -317,7 +317,9 @@ void CminusfBuilder::visit(ASTReturnStmt &node) {
 
 void CminusfBuilder::visit(ASTVar &node) {
     // var→ID ∣ ID [ expression ]
-    if(var_l){
+    auto var_l_tmp = var_l;
+    var_l = false;
+    if(var_l_tmp){
         if(node.expression == nullptr) { // if the expression is null, that means it is a variable
             tmp_val = scope.find(node.id);
             if(tmp_val == nullptr) {
@@ -376,7 +378,7 @@ void CminusfBuilder::visit(ASTVar &node) {
 
             builder->set_insert_point(normalBB);
             if(scope.is_func_param(node.id)) { // if the variable is a function parameter
-                tmp_val = builder->create_load(tmp_val);
+                ptr = builder->create_load(ptr);
                 tmp_val = builder->create_gep(ptr, {tmp_val});
             }
             else {
@@ -387,7 +389,9 @@ void CminusfBuilder::visit(ASTVar &node) {
     else{
         if(node.expression == nullptr){ // if the expression is null, that means it is a variable
             tmp_val = scope.find(node.id);
-            if(tmp_val == nullptr) {
+            if(tmp_val->get_type()->get_pointer_element_type()->is_array_type())
+                tmp_val = builder->create_gep(tmp_val, {CONST_INT(0), CONST_INT(0)}); //if the variable is a pointer point to an array, we need to get the first element
+            else if(tmp_val == nullptr) {
                 LOG(ERROR) << "Variable " << node.id << " is not defined.";
                 builder->create_call(static_cast<Function *>(scope.find("neg_idx_except")), {});
                 if(cur_fun->get_return_type()->is_void_type()) {
@@ -400,7 +404,9 @@ void CminusfBuilder::visit(ASTVar &node) {
                     builder->create_ret(CONST_INT(0));
                 }
             }
-            tmp_val = builder->create_load(tmp_val);
+            else{
+                tmp_val = builder->create_load(tmp_val);
+            }
         }
         else{
             node.expression->accept(*this); // visit the expression
@@ -444,7 +450,7 @@ void CminusfBuilder::visit(ASTVar &node) {
 
             builder->set_insert_point(normalBB);
             if(scope.is_func_param(node.id)) { // if the variable is a function parameter
-                tmp_val = builder->create_load(tmp_val);
+                ptr = builder->create_load(ptr);
                 tmp_val = builder->create_gep(ptr, {tmp_val});
                 tmp_val = builder->create_load(tmp_val);
             }
@@ -667,11 +673,13 @@ void CminusfBuilder::visit(ASTCall &node){
 
     auto paramType = func->get_function_type()->param_begin();
     std::vector<Value*> args;
+
     for (auto arg : node.args){
         arg->accept(*this);
         if (tmp_val->get_type()->is_pointer_type()){
             args.push_back(tmp_val);
         }
+
         else {
             if (*paramType == FLOAT_T && tmp_val->get_type()->is_integer_type())
                 tmp_val = builder->create_sitofp(tmp_val, FLOAT_T);
