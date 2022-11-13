@@ -68,7 +68,6 @@ PB20000277 孙昊哲
      
        private:
          std::vector<std::map<std::string, bool>> isFParam;
-     };
      ```
 
      我们主要的任务是添加了`is_func_param(std::string name)`函数，根据变量的名称判断是否是函数的形参
