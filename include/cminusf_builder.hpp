@@ -12,28 +12,20 @@
 #include <memory>
 
 class Scope {
-  // add isFuncParam
   public:
     // enter a new scope
-    void enter() { 
-      inner.push_back({}); 
-      isFParam.push_back({});
-    }
+    void enter() { inner.push_back({}); }
 
     // exit a scope
-    void exit() { 
-      inner.pop_back(); 
-      isFParam.pop_back();
-    }
+    void exit() { inner.pop_back(); }
 
     bool in_global() { return inner.size() == 1; }
 
     // push a name to scope
     // return true if successful
     // return false if this name already exits
-    bool push(std::string name, Value *val, bool isFuncParam = false) {
+    bool push(std::string name, Value *val) {
         auto result = inner[inner.size() - 1].insert({name, val});
-        isFParam[isFParam.size() - 1].insert({name, isFuncParam});
         return result.second;
     }
 
@@ -48,20 +40,8 @@ class Scope {
         return nullptr;
     }
 
-    bool is_func_param(std::string name) {
-        for (auto s = isFParam.rbegin(); s != isFParam.rend(); s++) {
-            auto iter = s->find(name);
-            if (iter != s->end()) {
-                return iter->second;
-            }
-        }
-
-        return false;
-    }
-
   private:
     std::vector<std::map<std::string, Value *>> inner;
-    std::vector<std::map<std::string, bool>> isFParam;
 };
 
 class CminusfBuilder : public ASTVisitor {
