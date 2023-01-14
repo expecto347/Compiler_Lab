@@ -131,13 +131,54 @@ static void print_partitions(const GVN::partitions &p) {
 
 GVN::partitions GVN::join(const partitions &P1, const partitions &P2) {
     // TODO: do intersection pair-wise
-    return {};
+    partitions P;
+    for(auto &cc1 : P1) {
+        for(auto &cc2 : P2) {
+            // if one of the class is top, return the other
+            if(!c1->index_)
+                return P2;
+
+            if(!c2->index_)
+                return P1;
+
+            auto cc = intersect(cc1, cc2);
+            if(cc != nullptr) {
+                P.insert(cc);
+            }
+        }
+    }
+    return P;
 }
 
 std::shared_ptr<CongruenceClass> GVN::intersect(std::shared_ptr<CongruenceClass> Ci,
                                                 std::shared_ptr<CongruenceClass> Cj) {
-    // TODO
-    return {};
+    std::set<Value *> inter_mem;
+    std::set_intersection(Ci->members_.begin(), Ci->members_.end(), Cj->members_.begin(), Cj->members_.end(),
+                          std::inserter(inter_mem, inter_mem.begin()));
+    if (inter_mem.empty())
+        return nullptr;
+    auto C = std::make_shared<CongruenceClass>();
+    //C->index_ = ++index_;
+    C->members_ = inter_mem;
+    C->leader_ = inter_mem.begin();
+    
+    if(*Ci = *Cj) return Cj; // if they are the same, return the same class
+    else if(Ci->leader_ == Cj->leader_) { // if they have the same leader, return the same class
+        C->value_phi_ = Ci->value_phi_;
+        C->value_expr_ = Ci->value_expr_;
+
+        auto const_val = std::dynamic_pointer_cast<ConstantExpression>(C->value_expr_);
+        if (const_val) {
+            C->leader_ = const_val->get_constant();
+        }
+        C->value_phi_ = Ci->value_phi_;
+    } else { // if they have different leaders, return a new class
+        auto l = Ci->value_expr_;
+        auto r = Cj->value_expr_;
+        C->value_phi = PhiExpression::create(l, r);
+        C->value_expr_ = value_phi;
+    }
+    return C;
 }
 
 void GVN::detectEquivalences() {
@@ -297,10 +338,27 @@ GVN::partitions GVN::clone(const partitions &p) {
 
 bool operator==(const GVN::partitions &p1, const GVN::partitions &p2) {
     // TODO: how to compare partitions?
-    return false;
+    if(p1.size() != p2.size()) return false;
+    for(auto &cc : p1){
+        if(p2.find(cc) == p2.end()) return false;
+    }
+    for(auto &cc : p2){
+        if(p1.find(cc) == p1.end()) return false;
+    }
+    return true;
 }
 
 bool CongruenceClass::operator==(const CongruenceClass &other) const {
     // TODO: which fields need to be compared?
-    return false;
+    if (this->members_.size() != other.members_.size())
+        return false;
+    for (auto &member : this->members_) {
+        if (other.members_.find(member) == other.members_.end())
+            return false;
+    }
+    for (auto &member : other.members_) {
+        if (this->members_.find(member) == this->members_.end())
+            return false;
+    }
+    return true;
 }

@@ -60,6 +60,7 @@ class ConstantExpression : public Expression {
     // we leverage the fact that constants in lightIR have unique addresses
     bool equiv(const ConstantExpression *other) const { return c_ == other->c_; }
     ConstantExpression(Constant *c) : Expression(e_constant), c_(c) {}
+    Constant *get_constant() const { return c_; }
 
   private:
     Constant *c_;
